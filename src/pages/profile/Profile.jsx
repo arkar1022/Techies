@@ -2,12 +2,49 @@ import React, { useEffect, useState } from "react";
 import "./profile.css";
 import profile from "../../assets/profile.jpeg";
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { getUser, deleteUser} from "../../actions";
 
 function Profile() {
-  const [editable, setEditable] = useState(true);
+  const [editable, setEditable] = useState(false);
   const [isActive1, setIsActive1] = useState(false);
   const [isActive2, setIsActive2] = useState(false);
   const [isActive3, setIsActive3] = useState(false);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.userInfo);
+  const token = useSelector((state) => state.token);
+
+
+  const [data, setData] = useState({
+    email: user.email,
+    phone: user.phone
+  })
+
+  function submit(e) {
+    if(editable) {
+    e.preventDefault();
+    axios.post("http://localhost:8000/api/user", {
+      email: data.email,
+      phone: data.phone,
+    }, {
+      headers: {
+        'Authorization': token
+      }
+    })
+    .then(response=>{
+      console.log(response.data.token)
+      dispatch(getUser(response.data))
+    })}
+
+  }
+
+  function handle(e) {
+    const newdata={...data}
+    newdata[e.target.id] = e.target.value
+    setData(newdata)
+    console.log(newdata)
+  }
   return (
     <>
       <section className="profile section__padding">
@@ -20,35 +57,37 @@ function Profile() {
         <div className="info__container">
           <h2>Profile</h2>
           <input
+          
             type="text"
             placeholder="Name"
-            defaultValue="Cellena"
-            disabled={editable}
+            defaultValue={user.id}
+            disabled={!editable}
           />
           <input
-            type="email"
+        
+            type="text"
             placeholder="Email"
-            defaultValue="cellena223@gmail.com"
-            disabled={editable}
+            defaultValue={data.email}
+            disabled={!editable}
           />
           <input
             type="password"
             placeholder="Password"
-            defaultValue="wef323fef"
-            disabled={editable}
+            defaultValue="nopassword"
+            disabled={!editable}
           />
           <input
             type="text"
             placeholder="Phone Number"
-            defaultValue="09785412358"
-            disabled={editable}
+            defaultValue={data.phone}
+            disabled={!editable}
           />
 
           <button
             type="button"
-            onClick={() => setEditable(!editable)}
+            onClick={(e) => {setEditable(!editable);submit(e)}}
           >
-            {editable ? <span>Edit </span> : <span>Save </span>}Info
+            {editable ? <span>Save</span> : <span>Edit</span>}Info
           </button>
         </div>
       </section>

@@ -98,13 +98,25 @@
     transform: scale(1.1);
     background: var(--color-primary);
     color: white;
+    transition: all 1s ease;
+}
+
+.navbar-profile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.navbar-profile img:hover {
+  cursor: pointer;
 }
 
 .navbar-menu_container-links-sign button:hover {
     transform: scale(1.1);
-    background: var(--color-btn);
+    background: var(--color-primary);
     color: white;
-    border: 3px solid var(--color-btn);
+    border: 3px solid var(--color-primary);
+    transition: all 1s ease;
   }
 
 .navbar-menu {
@@ -124,11 +136,28 @@
   flex-direction: column;
   z-index: 50000;
   text-align: end;
-  background: var(--color-primary);
+  background: var(--color-btn);
   padding: 1rem 1rem;
   position: absolute;
   right: 0;
-  top: 40px;
+  margin-top: 1rem;
+  min-width: 165px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-profile_container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-direction: column;
+  z-index: 50000;
+  text-align: end;
+  background: var(--color-btn);
+  padding: 0.5rem 0.5rem 0.5rem 0rem;
+  position: absolute;
+  right: 90px;
+  top: 70px;
   margin-top: 1rem;
   min-width: 165px;
   border-radius: 5px;
@@ -141,9 +170,19 @@
 }
 
 .navbar-menu_container p:hover {
-  margin: 1rem 0;
-  color: #fff;
   font-weight: 600;
+}
+
+.navbar-profile_container p {
+  font-family: var(--font-text);
+  margin: 0.5rem;
+  padding: 0;
+  color: #fff;
+}
+
+.navbar-profile_container p:hover {
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .navbar-menu_container-links-sign {
@@ -169,6 +208,12 @@
     font-size: 50px;
     line-height: 55px;
   }
+
+  .navbar-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -188,6 +233,11 @@
 
   .navbar-menu_container {
     top: 32px;
+  }
+
+  .navbar-profile_container {
+    top: 55px;
+    right: 50px;
   }
 
   .navbar-menu_container-links-sign {

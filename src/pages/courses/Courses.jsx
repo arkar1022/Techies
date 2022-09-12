@@ -1,14 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import "./courses.css";
 import { BiSearchAlt } from "react-icons/bi";
 import { CgArrowRightR } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import { IoCloseOutline } from "react-icons/io5";
 import python from "../../assets/python.jpeg";
+import axios from "axios";
+
+import { useSelector,useDispatch } from "react-redux";
+import {deselectCourse, selectCourse} from "../../actions";
 
 function Courses() {
-    const [isDetail,setIsDetail] = useState(false);
-    let navigate = useNavigate(); 
+
+  let navigate = useNavigate();
+
+  const [courses, setCourses] = useState([]);
+
+  const course = useSelector(state => state.courseInfo);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/courses/").then((response) => {
+      setCourses(response.data);
+    });
+  }, []);
+
   return (
     <>
       <section className="coursehd section__padding">
@@ -21,41 +37,41 @@ function Courses() {
 
       <section className="courses section__padding">
         <div className="courses__container">
-          <button type="button" onClick={()=>setIsDetail(true)}>
-            Advanced Python <CgArrowRightR size={50}  />
-          </button>
-          <button type="button" onClick={()=>setIsDetail(true)}>
-            Advanced Python <CgArrowRightR size={50} />
-          </button>
-          <button type="button" onClick={()=>setIsDetail(true)}>
-            Advanced Python <CgArrowRightR size={50} />
-          </button>
-          <button type="button" onClick={()=>setIsDetail(true)}>
-            Advanced Python <CgArrowRightR size={50} />
-          </button>
-          <button type="button" onClick={()=>setIsDetail(true)}>
-            Advanced Python <CgArrowRightR size={50} />
-          </button>
+          {courses.map((course) => {
+            return (
+              <button type="button" onClick={() => dispatch(selectCourse(course))}>
+                {course.name} <CgArrowRightR size={50} />
+              </button>
+            );
+          })}
         </div>
-        {isDetail? 
-        <dir className="courses-content__container">
-        <IoCloseOutline color="black" size={25} onClick={()=>setIsDetail(false)}/>
-          <div className="courses-content">
-            <img src={python} />
-            <dir className="course__info">
-              <h2>Advanced Python</h2>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. In
-                necessitatibus optio facere, ex at quos eveniet sequi id quo
-                dolorum cupiditate porro, hic illo sapiente et odio omnis.
-                Accusantium, at.
-              </p>
-              <button type="button" onClick={()=>navigate("/course_detail")}>Explore</button>
-            </dir>
-          </div>
-        </dir>
-        : <div className='course__start'></div>}
-      
+        {course != null ? (
+          <dir className="courses-content__container">
+            <IoCloseOutline
+              color="black"
+              size={25}
+              onClick={() => dispatch(deselectCourse())}
+            />
+
+            <div className="courses-content">
+              <img src={python} />
+              <div className="course__info">
+                <h2>{course.name}</h2>
+                <p>
+                {course.description}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => navigate("/course_detail")}
+                >
+                  Explore
+                </button>
+              </div>
+            </div>
+          </dir>
+        ) : (
+          <div className="course__start"></div>
+        )}
       </section>
     </>
   );

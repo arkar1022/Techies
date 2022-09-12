@@ -10,6 +10,9 @@ import { AiFillStar } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { Pagination} from 'swiper';
 
+import { useSelector,useDispatch } from "react-redux";
+import {increment} from "../../actions";
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/mousewheel';
@@ -40,6 +43,9 @@ function Home() {
   const { ref: trainRef, inView: trainIsVisible } = useInView();
   const width = useWindowSize();
 
+  const counter = useSelector(state => state.counter);
+  const dispatch = useDispatch();
+
   const mySize = () => {
     if (width < 800) {
       return 1;
@@ -52,7 +58,7 @@ function Home() {
     <>
       <section className={'header section__padding'}>
         <div className="header-content slide-down">
-          <h1 className="gradient__text">Techies Training Centre</h1>
+          <h1 className="gradient__text">{counter}Techies Training Centre</h1>
           <p>
             Yet bed any for travelling assistance indulgence unpleasing. Not
             thoughts all exercise blessing. Indulgence way everything joy
@@ -61,7 +67,7 @@ function Home() {
           </p>
 
           <div className="header-content__btn">
-            <button type="button" onClick={()=>navigate("/courses")}>Explore Courses</button>
+            <button type="button" onClick={()=>{navigate("/about");dispatch(increment(4))}}>Explore Courses</button>
             <button type="button" onClick={()=>navigate("/about")}>Explore Activites</button>
           </div>
         </div>

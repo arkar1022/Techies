@@ -3,8 +3,9 @@ import "./course_detail.css";
 import python from "../../assets/python.jpeg";
 import computer from "../../assets/computer.png";
 import instructor from "../../assets/instructor1.png";
-
+import { useSelector} from "react-redux";
 function Course_detail() {
+  const course = useSelector(state => state.courseInfo);
   return (
     <>
       <section className="detailhd section__padding">
@@ -12,12 +13,13 @@ function Course_detail() {
           <img src={python} />
         </div>
         <div className="detailhd-content slide-down">
-          <h1>Advanced Python Course</h1>
+          <h1>{course.name}</h1>
           <p>
-            Yet bed any for travelling assistance indulgence unpleasing. Not
+            {course.description}
+            {/* Yet bed any for travelling assistance indulgence unpleasing. Not
             thoughts all exercise blessing. Indulgence way everything joy
             alteration boisterous the attachment. Party we years to order allow
-            asked of.
+            asked of. */}
           </p>
         </div>
       </section>
@@ -25,7 +27,8 @@ function Course_detail() {
       <section className="outline section__padding">
         <h1>Course Outline</h1>
         <p>
-          <ul>
+          {course.outline}
+          {/* <ul>
             <li>
               Contrary to popular belief, Lorem Ipsum is not simply random text.
             </li>
@@ -38,7 +41,7 @@ function Course_detail() {
             <li>
               Contrary to popular belief, Lorem Ipsum is not simply random text.
             </li>
-          </ul>
+          </ul> */}
         </p>
       </section>
 
@@ -46,12 +49,13 @@ function Course_detail() {
         <div className="outcome-content">
           <h1>Course Outcome</h1>
           <p>
-            <ul>
+            {course.outcomes}
+            {/* <ul>
               <li>Contrary to popular belief, Lorem Ipsum Contrary to popular belief, Lorem Ipsum .</li>
               <li>Contrary to popular belief, Lorem Ipsum Contrary to popular belief, Lorem Ipsum .</li>
               <li>Contrary to popular belief, Lorem Ipsum Contrary to popular belief, Lorem Ipsum .</li>
               <li>Contrary to popular belief, Lorem Ipsum Contrary to popular belief, Lorem Ipsum .</li>
-            </ul>
+            </ul> */}
           </p>
         </div>
       </section>
